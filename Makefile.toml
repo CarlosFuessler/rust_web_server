@@ -1,0 +1,115 @@
+[tasks.build-rust]
+command = "cargo"
+args = ["build"]
+description = "Build the Rust web server"
+
+[tasks.install-frontend-deps]
+condition = { platforms = ["windows"] }
+command = "cmd"
+args = ["/C", "cd src\\frontend && npm install"]
+description = "Install frontend dependencies on Windows"
+
+[tasks.install-frontend-deps-unix]
+condition = { platforms = ["linux", "mac"] }
+command = "npm"
+args = ["install"]
+cwd = "./src/frontend"
+description = "Install frontend dependencies on Linux/Mac"
+
+[tasks.build-react]
+condition = { platforms = ["windows"] }
+command = "cmd"
+args = ["/C", "cd src\\frontend && npm run build"]
+dependencies = ["install-frontend-deps"]
+description = "Build the React frontend on Windows"
+
+[tasks.build-react-unix]
+condition = { platforms = ["linux", "mac"] }
+command = "npm"
+args = ["run", "build"]
+cwd = "./src/frontend"
+dependencies = ["install-frontend-deps-unix"]
+description = "Build the React frontend on Linux/Mac"
+
+[tasks.build-frontend]
+dependencies = ["build-react", "build-react-unix"]
+description = "Build the React frontend (cross-platform)"
+
+[tasks.build-all]
+dependencies = ["build-rust", "build-frontend"]
+description = "Build both Rust backend and React frontend"
+
+[tasks.dev-frontend]
+condition = { platforms = ["windows"] }
+command = "cmd"
+args = ["/C", "cd src\\frontend && npm start"]
+dependencies = ["install-frontend-deps"]
+description = "Start the React development server on Windows"
+
+[tasks.dev-frontend-unix]
+condition = { platforms = ["linux", "mac"] }
+command = "npm"
+args = ["start"]
+cwd = "./src/frontend"
+dependencies = ["install-frontend-deps-unix"]
+description = "Start the React development server on Linux/Mac"
+
+[tasks.test-rust]
+command = "cargo"
+args = ["test"]
+description = "Run Rust tests"
+
+[tasks.test-frontend]
+condition = { platforms = ["windows"] }
+command = "cmd"
+args = ["/C", "cd src\\frontend && npm test -- --watchAll=false"]
+dependencies = ["install-frontend-deps"]
+description = "Run React tests on Windows"
+
+[tasks.test-frontend-unix]
+condition = { platforms = ["linux", "mac"] }
+command = "npm"
+args = ["test", "--", "--watchAll=false"]
+cwd = "./src/frontend"
+dependencies = ["install-frontend-deps-unix"]
+description = "Run React tests on Linux/Mac"
+
+[tasks.test-all]
+dependencies = ["test-rust", "test-frontend", "test-frontend-unix"]
+description = "Run all tests"
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+description = "Clean build artifacts"
+
+[tasks.clean-frontend]
+condition = { platforms = ["windows"] }
+command = "cmd"
+args = ["/C", "cd src\\frontend && if exist node_modules rmdir /s /q node_modules && if exist build rmdir /s /q build"]
+description = "Clean frontend build artifacts on Windows"
+
+[tasks.clean-frontend-unix]
+condition = { platforms = ["linux", "mac"] }
+script = [
+    "cd src/frontend",
+    "rm -rf node_modules build"
+]
+description = "Clean frontend build artifacts on Linux/Mac"
+
+[tasks.clean-all]
+dependencies = ["clean", "clean-frontend", "clean-frontend-unix"]
+description = "Clean all build artifacts"
+
+[tasks.run-server]
+command = "cargo"
+args = ["run"]
+dependencies = ["build-rust"]
+description = "Run the Rust web server"
+
+[tasks.dev]
+run_task = [
+    { name = "dev-frontend", fork = true },
+    { name = "run-server" }
+]
+description = "Start both frontend and backend in development mode"
