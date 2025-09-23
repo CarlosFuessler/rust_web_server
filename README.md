@@ -36,23 +36,27 @@ rust_web_server/
 ### Option 1: Run with Frontend (Recommended)
 
 1. **Clone and navigate to the project:**
+
    ```bash
    git clone <repository-url>
    cd rust_web_server
    ```
 
 2. **Install frontend dependencies:**
+
    ```bash
    cd src/frontend
    npm install
    ```
 
 3. **Build the React frontend:**
+
    ```bash
    npm run build
    ```
 
 4. **Return to project root and start the server:**
+
    ```bash
    cd ../..
    cargo run
@@ -78,39 +82,51 @@ This will start the server on `http://127.0.0.1:3020` but won't serve the React 
 Once the server is running, you can access these endpoints:
 
 ### GET `/api`
+
 Returns a welcome message.
 
 **Example:**
+
 ```bash
 curl http://127.0.0.1:3020/api
 ```
+
 **Response:**
+
 ```
 Welcome to the Rust Web Server API!
 ```
 
 ### GET `/api/hello/{name}`
+
 Returns a personalized greeting.
 
 **Example:**
+
 ```bash
 curl http://127.0.0.1:3020/api/hello/John
 ```
+
 **Response:**
+
 ```
 Hello, John!
 ```
 
 ### POST `/api/json`
+
 Accepts JSON data and returns a formatted response.
 
 **Example:**
+
 ```bash
 curl -X POST http://127.0.0.1:3020/api/json \
   -H "Content-Type: application/json" \
   -d '{"name": "Alice", "age": 30}'
 ```
+
 **Response:**
+
 ```json
 {
   "message": "Hello, Alice! You are 30 years old."
@@ -124,13 +140,16 @@ curl -X POST http://127.0.0.1:3020/api/json \
 To work on the React frontend with hot reload:
 
 1. **Start the React development server:**
+
    ```bash
    cd src/frontend
    npm start
    ```
+
    This will start the frontend on `http://localhost:3000`
 
 2. **In another terminal, start the Rust backend:**
+
    ```bash
    cargo run
    ```
@@ -146,6 +165,7 @@ To work on the React frontend with hot reload:
 The Rust server supports hot reload with `cargo watch`:
 
 1. **Install cargo-watch:**
+
    ```bash
    cargo install cargo-watch
    ```
@@ -158,12 +178,14 @@ The Rust server supports hot reload with `cargo watch`:
 ## Building for Production
 
 ### Frontend
+
 ```bash
 cd src/frontend
 npm run build
 ```
 
 ### Backend
+
 ```bash
 cargo build --release
 ```
@@ -173,6 +195,7 @@ The production binary will be located at `target/release/webserver.exe` (Windows
 ## Configuration
 
 - **Server Port**: The server runs on port `3020` by default. You can modify this in `src/main.rs`:
+
   ```rust
   let addr = SocketAddr::from(([127, 0, 0, 1], 3020));
   ```
@@ -184,12 +207,15 @@ The production binary will be located at `target/release/webserver.exe` (Windows
 ### Common Issues
 
 1. **"No such file or directory" when accessing the frontend:**
+
    - Make sure you've built the React frontend first: `cd src/frontend && npm run build`
 
 2. **Port already in use:**
+
    - Change the port number in `src/main.rs` or stop the process using port 3020
 
 3. **Compilation errors:**
+
    - Ensure you have the latest stable Rust version: `rustup update`
    - Clear the build cache: `cargo clean`
 
@@ -200,6 +226,7 @@ The production binary will be located at `target/release/webserver.exe` (Windows
 ### Logs
 
 The server will display startup information and any errors in the terminal. Look for:
+
 ```
 Server running at http://127.0.0.1:3020
 ```
