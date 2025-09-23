@@ -1,6 +1,7 @@
 use axum::{
     routing::{get, post},
-    Json, Router, Server
+    Json, Router,
+    extract::Path,
 };
 use serde::{Deserialize, Serialize};
 use std::net::SocketAddr;
@@ -21,24 +22,19 @@ async fn main() {
     let addr = SocketAddr::from(([127, 0, 0, 1], 3020));
     println!("Server running at http://{}", addr);
     
-    // Start the server
-    Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await
-        .unwrap();
+    // Start the server with axum 0.7 syntax
+    let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
+    axum::serve(listener, app).await.unwrap();
 }
 
-// Root handler
 async fn root() -> &'static str {
     "Welcome to the Rust Web Server API!"
 }
 
-// Dynamic route handler
-async fn hello(axum::extract::Path(name): axum::extract::Path<String>) -> String {
+async fn hello(Path(name): Path<String>) -> String {
     format!("Hello, {}!", name)
 }
 
-// JSON handler
 #[derive(Deserialize)]
 struct InputData {
     name: String,
