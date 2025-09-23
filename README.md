@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Rust Web Server
 
 A full-stack web application built with Rust (Axum) backend and React TypeScript frontend.
@@ -242,3 +243,7 @@ Server running at http://127.0.0.1:3020
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+=======
+# rust_web_webserver
+
+>>>>>>> 01f87efcb53dade1269ab88044b5dd4b6f89d6ad
