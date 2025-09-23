@@ -165,6 +165,30 @@ curl -X POST http://127.0.0.1:3020/api/json \
 }
 ```
 
+## Python Integration
+
+The server supports running Python calculations within the Rust backend using PyO3.
+
+### GET `/api/python_calc/{num}`
+
+Runs a Python calculation and returns the result.
+
+**Example:**
+
+```bash
+curl http://127.0.0.1:3020/api/python_calc/5
+```
+
+**Response:**
+
+```
+Power calculation for 5 is 25
+```
+
+**Requirements:**
+
+- Python must be installed on the system
+
 ## Development
 
 ### Cargo Make Tasks
