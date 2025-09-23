@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Rust Web Server
 
 A full-stack web application built with Rust (Axum) backend and React TypeScript frontend.
