@@ -33,41 +33,7 @@ rust_web_server/
 
 ## Quick Start
 
-### Prerequisites
-
-Install `cargo-make` for task automation:
-
-```bash
-cargo install cargo-make
-```
-
-### Option 1: Using Cargo Make (Recommended)
-
-1. **Clone and navigate to the project:**
-
-   ```bash
-   git clone <repository-url>
-   cd rust_web_server
-   ```
-
-2. **Build everything (backend + frontend):**
-
-   ```bash
-   cargo make build-all
-   ```
-
-3. **Run the server:**
-
-   ```bash
-   cargo make run-server
-   ```
-
-4. **Open your browser and visit:**
-   ```
-   http://127.0.0.1:3020
-   ```
-
-### Option 2: Manual Setup
+### Option 1: Run with Frontend (Recommended)
 
 1. **Clone and navigate to the project:**
 
@@ -100,6 +66,8 @@ cargo install cargo-make
    ```
    http://127.0.0.1:3020
    ```
+
+### Option 2: Backend Only
 
 If you only want to run the API server without the frontend:
 
@@ -165,90 +133,7 @@ curl -X POST http://127.0.0.1:3020/api/json \
 }
 ```
 
-## Python Integration
-
-The server supports running Python calculations within the Rust backend using PyO3.
-
-### GET `/api/python_calc/{num}`
-
-Runs a Python calculation and returns the result.
-
-**Example:**
-
-```bash
-curl http://127.0.0.1:3020/api/python_calc/5
-```
-
-**Response:**
-
-```
-Power calculation for 5 is 25
-```
-
-**Requirements:**
-
-- Python must be installed on the system
-
 ## Development
-
-### Cargo Make Tasks
-
-This project uses `cargo-make` as a task runner to automate common development tasks. Here are the available custom tasks:
-
-#### Building
-
-- **`cargo make build-all`** - Build both Rust backend and React frontend
-- **`cargo make build-rust`** - Build only the Rust web server
-- **`cargo make build-frontend`** - Build only the React frontend (cross-platform)
-
-#### Running
-
-- **`cargo make run-server`** - Build and run the Rust web server
-- **`cargo make dev-frontend`** - Start the React development server with hot reload
-- **`cargo make dev`** - Start both frontend and backend in development mode (experimental)
-
-#### Testing
-
-- **`cargo make test-all`** - Run all tests (Rust + React)
-- **`cargo make test-rust`** - Run only Rust tests
-- **`cargo make test-frontend`** - Run only React tests
-
-#### Cleaning
-
-- **`cargo make clean`** - Clean Rust build artifacts
-- **`cargo make clean-frontend`** - Clean frontend build artifacts (node_modules, build)
-- **`cargo make clean-all`** - Clean all build artifacts
-
-#### Dependencies
-
-- **`cargo make install-frontend-deps`** - Install frontend npm dependencies
-
-#### Listing Tasks
-
-- **`cargo make --list-all-steps`** - List all available tasks (including built-in cargo-make tasks)
-
-### Platform Support
-
-The Makefile.toml is configured to work cross-platform:
-
-- **Windows**: Uses `cmd` with specific Windows paths and commands
-- **Linux/Mac**: Uses standard shell commands and npm directly
-
-Example usage on Windows:
-
-```powershell
-# PowerShell
-cargo make build-all
-cargo make run-server
-```
-
-Example usage on Linux/Mac:
-
-```bash
-# Bash/Zsh
-cargo make build-all
-cargo make run-server
-```
 
 ### Frontend Development
 
@@ -359,5 +244,3 @@ Server running at http://127.0.0.1:3020
 # This project is licensed under the MIT License - see the LICENSE file for details.
 
 # rust_web_webserver
-
-> > > > > > > 01f87efcb53dade1269ab88044b5dd4b6f89d6ad
