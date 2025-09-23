@@ -9,20 +9,19 @@ use tower_http::services::ServeDir;
 
 #[tokio::main]
 async fn main() {
-    // Build the router
+ 
     let app = Router::new()
-        // API routes
+       
         .route("/api", get(root))
         .route("/api/hello/:name", get(hello))
         .route("/api/json", post(handle_json))
-        // Serve static files from the React build directory
+        
         .nest_service("/", ServeDir::new("src/frontend/build"));
 
-    // Specify the address to listen on
+    
     let addr = SocketAddr::from(([127, 0, 0, 1], 3020));
     println!("Server running at http://{}", addr);
     
-    // Start the server with axum 0.7 syntax
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
