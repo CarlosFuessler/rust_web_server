@@ -1,5 +1,8 @@
 pub mod communication;
 pub mod connection;
 
+#[cfg(test)]
+mod tests;
+
 pub use communication::send_data;
 pub use connection::{connect_arduino, monitor_arduino_connection};

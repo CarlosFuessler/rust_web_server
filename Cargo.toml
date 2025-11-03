@@ -12,3 +12,15 @@ tower = "0.4"
 tower-http = { version = "0.5", features = ["fs", "cors"] }
 serialport = "4.2"
 pyo3 = { version = "0.21", features = ["auto-initialize"] }
+
+[dev-dependencies]
+futures = "0.3"
+tower = { version = "0.4", features = ["util"] }
+
+[lib]
+name = "webserver"
+path = "src/lib.rs"
+
+[[bin]]
+name = "webserver"
+path = "src/main.rs"

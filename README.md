@@ -1,13 +1,26 @@
-# Rust Web Server
+# Arduino Web Server
 
-A full-stack web application built with Rust (Axum) backend with python functionality using PyO3 and React TypeScript frontend.
+A high-performance web server for controlling Arduino devices via serial communication, built with Rust (Axum) backend and React TypeScript frontend.
 
 ## Features
 
-- **Rust Backend**: Built with Axum web framework for high performance
-- **React Frontend**: TypeScript-based React application
-- **RESTful API**: Multiple endpoints for different functionalities
-- **Static File Serving**: Serves the React build files automatically
+- **Serial Communication**: Direct communication with Arduino devices
+- **REST API**: HTTP endpoints for device control (update, stop, LED, scan)
+- **Auto-Reconnection**: Automatic Arduino connection monitoring
+- **React Frontend**: Modern TypeScript-based UI
+- **CORS Enabled**: Cross-origin resource sharing support
+- **Type-Safe**: Leverages Rust's type system for reliability
+
+## 📚 Documentation
+
+Comprehensive documentation is available in the [`docs/`](./docs/) directory:
+
+- **[Architecture](./docs/Architecture.md)** - System design and module overview
+- **[API Reference](./docs/API-Reference.md)** - Complete API endpoint documentation
+- **[Setup Guide](./docs/Setup-Guide.md)** - Installation and configuration
+- **[Module Guide](./docs/Module-Guide.md)** - Detailed code module documentation
+- **[Development Guide](./docs/Development-Guide.md)** - Contributing and extending
+- **[Troubleshooting](./docs/Troubleshooting.md)** - Common issues and solutions
 
 ## Prerequisites
 
@@ -22,13 +35,16 @@ Before running this project, make sure you have the following installed:
 ```
 rust_web_server/
 ├── src/
-│   ├── main.rs              # Rust backend server
-│   └── frontend/            # React frontend
-│       ├── src/             # React source files
-│       ├── public/          # Static assets
-│       └── package.json     # Frontend dependencies
+│   ├── main.rs              # Application entry point
+│   ├── config.rs            # Configuration constants
+│   ├── models/              # Data structures (DTOs, state)
+│   ├── handlers/            # API route handlers
+│   ├── serial/              # Serial communication layer
+│   ├── utils/               # Helper functions
+│   └── frontend/            # React TypeScript application
+├── docs/                    # Comprehensive documentation
 ├── Cargo.toml               # Rust dependencies
-└── README.md
+└── README.md                # This file
 ```
 
 ## Quick Start
@@ -79,59 +95,25 @@ This will start the server on `http://127.0.0.1:3020` but won't serve the React 
 
 ## API Endpoints
 
-Once the server is running, you can access these endpoints:
+The server provides the following REST API endpoints (default port: 5000):
 
-### GET `/api`
+### POST `/api/update`
 
-Returns a welcome message.
+Update Arduino parameters (power, charge, time, EEPROM).
 
-**Example:**
+### POST `/api/stop`
 
-```bash
-curl http://127.0.0.1:3020/api
-```
+Stop Arduino operation, optionally saving to EEPROM.
 
-**Response:**
+### POST `/api/led`
 
-```
-Welcome to the Rust Web Server API!
-```
+Control LED parameters (color, direction, pulse frequency).
 
-### GET `/api/hello/{name}`
+### GET `/api/scan`
 
-Returns a personalized greeting.
+Scan for Arduino devices and retrieve sensor data.
 
-**Example:**
-
-```bash
-curl http://127.0.0.1:3020/api/hello/John
-```
-
-**Response:**
-
-```
-Hello, John!
-```
-
-### POST `/api/json`
-
-Accepts JSON data and returns a formatted response.
-
-**Example:**
-
-```bash
-curl -X POST http://127.0.0.1:3020/api/json \
-  -H "Content-Type: application/json" \
-  -d '{"name": "Alice", "age": 30}'
-```
-
-**Response:**
-
-```json
-{
-  "message": "Hello, Alice! You are 30 years old."
-}
-```
+**For detailed API documentation with examples, see [API Reference](./docs/API-Reference.md).**
 
 ## Development
 
@@ -194,47 +176,67 @@ The production binary will be located at `target/release/webserver.exe` (Windows
 
 ## Configuration
 
-- **Server Port**: The server runs on port `3020` by default. You can modify this in `src/main.rs`:
+Server configuration is centralized in `src/config.rs`:
 
-  ```rust
-  let addr = SocketAddr::from(([127, 0, 0, 1], 3020));
-  ```
+```rust
+pub const MANUFACTURER: &str = "Microsoft";  // Arduino manufacturer
+pub const BAUD_RATE: u32 = 9600;            // Serial baud rate
+pub const SERVER_PORT: u16 = 5000;          // HTTP server port
+pub const RECONNECT_INTERVAL: Duration = Duration::from_secs(5);
+```
 
-- **Static Files**: The server serves React build files from `src/frontend/build`. Make sure to build the frontend before running the server.
+**For detailed configuration options, see [Setup Guide](./docs/Setup-Guide.md).**
 
 ## Troubleshooting
 
-### Common Issues
+### Quick Fixes
 
-1. **"No such file or directory" when accessing the frontend:**
+1. **Arduino Not Connected:**
 
-   - Make sure you've built the React frontend first: `cd src/frontend && npm run build`
+   - Check USB cable connection
+   - Verify manufacturer setting in `config.rs`
+   - Linux: Add user to dialout group: `sudo usermod -a -G dialout $USER`
 
-2. **Port already in use:**
+2. **Port Already in Use:**
 
-   - Change the port number in `src/main.rs` or stop the process using port 3020
+   - Change `SERVER_PORT` in `config.rs`
+   - Or kill process: `lsof -i :5000` (Linux/macOS) or `netstat -ano | findstr :5000` (Windows)
 
-3. **Compilation errors:**
+3. **Frontend Not Loading:**
 
-   - Ensure you have the latest stable Rust version: `rustup update`
-   - Clear the build cache: `cargo clean`
+   - Build frontend: `cd src/frontend && npm run build`
+   - Verify `src/frontend/build/` exists
 
-4. **Frontend build fails:**
-   - Delete `node_modules` and reinstall: `rm -rf node_modules && npm install`
-   - Check Node.js version: `node --version` (should be 16+)
+4. **Compilation Errors:**
+   - Update Rust: `rustup update`
+   - Clean build: `cargo clean && cargo build`
 
-### Logs
-
-The server will display startup information and any errors in the terminal. Look for:
-
-```
-Server running at http://127.0.0.1:3020
-```
+**For comprehensive troubleshooting, see [Troubleshooting Guide](./docs/Troubleshooting.md).**
 
 ## Contributing
 
+We welcome contributions! Please see our [Development Guide](./docs/Development-Guide.md) for:
+
+- Development setup
+- Code style guidelines
+- Testing strategies
+- Pull request process
+
+**Quick Start:**
+
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create feature branch: `git checkout -b feature/my-feature`
+3. Make changes and add tests
+4. Run checks: `cargo test && cargo clippy && cargo fmt`
+5. Submit Pull Request
+
+## License
+
+This project is part of a research/educational initiative.
+
+## Support & Resources
+
+- **Documentation**: See [`docs/`](./docs/) directory
+- **Issues**: [GitHub Issues](https://github.com/CarlosFuessler/rust_web_server/issues)
+- **API Reference**: [docs/API-Reference.md](./docs/API-Reference.md)
+- **Examples**: See [docs/Development-Guide.md](./docs/Development-Guide.md)
