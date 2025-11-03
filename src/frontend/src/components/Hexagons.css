@@ -1,0 +1,591 @@
+.hexagons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.info, .selected-info {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f0f0f0;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.selected-info {
+  background-color: #4ECDC4;
+  color: white;
+}
+
+.canvas-container {
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  flex: 1;
+}
+
+.canvas-container.full-width {
+  width: 100%;
+  margin: 0 auto;
+  border: none;
+  box-shadow: none;
+  border-radius: 10px;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #f8f9fa;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar-header h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.sidebar-header p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.control-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+
+.form-group label {
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.range-input {
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+.range-input:hover {
+  background: #bbb;
+}
+
+.range-input::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #4ECDC4;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.range-input::-webkit-slider-thumb:hover {
+  background: #45B7D1;
+}
+
+.range-input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #4ECDC4;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
+}
+
+.range-input::-moz-range-thumb:hover {
+  background: #45B7D1;
+}
+
+.range-value {
+  text-align: center;
+  font-weight: bold;
+  color: #4ECDC4;
+  background-color: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  min-width: 25px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.submit-button, .turnoff-button, .reset-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-button {
+  background-color: #4ECDC4;
+  color: white;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #45B7D1;
+  transform: translateY(-2px);
+}
+
+.turnoff-button {
+  background-color: #FFA726;
+  color: white;
+}
+
+.turnoff-button:hover:not(:disabled) {
+  background-color: #FF9800;
+  transform: translateY(-2px);
+}
+
+.reset-button {
+  background-color: #FF5252;
+  color: white;
+}
+
+.reset-button:hover {
+  background-color: #FF6B6B;
+  transform: translateY(-2px);
+}
+
+.submit-button:disabled, .turnoff-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hexagon-canvas {
+  display: block;
+  background-color: white;
+}
+
+.hexagon {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+
+.hexagon-selected {
+  stroke-width: 3;
+}
+
+.hexagon-selected:hover {
+  stroke-width: 4;
+  filter: brightness(1.1);
+}
+
+/* Hexagon-Styling */
+.hexagon {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hexagon:hover {
+  filter: brightness(1.1);
+}
+
+.hexagon-selected {
+  stroke: #FF6B6B;
+  stroke-width: 3;
+  filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+}
+
+.hexagon-with-image {
+  stroke: #333;
+  stroke-width: 2;
+}
+
+.hexagon-with-image:hover {
+  stroke: #555;
+  stroke-width: 3;
+}
+
+.hexagon-with-image.hexagon-selected {
+  stroke: #FF6B6B;
+  stroke-width: 4;
+  filter: drop-shadow(0 0 15px rgba(255, 107, 107, 0.8));
+}
+
+.hexline {
+  stroke: #333;
+  stroke-width: 4;
+}
+
+.hexline:hover {
+  cursor: pointer;
+  stroke: #555;
+  stroke-width: 6;
+}
+
+.hexline.selected-line {
+  stroke: #4ECDC4;
+  stroke-width: 6;
+}
+
+.line-label {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  fill: #ff00ff;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.line-label:hover {
+  fill: #4ECDC4;
+}
+
+.instructions {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.instructions p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.hexagon-bg-wind {
+  background-image: url('../assets/windturbine-neo-mediumorchid-symbol-classic-solid.png');
+}
+
+/* Linke Quadrate */
+.square-group {
+  cursor: pointer;
+}
+
+.left-square {
+  transition: all 0.3s ease;
+  fill: #4ECDC4;
+  stroke: #000;
+  stroke-width: 1;
+}
+
+.square-group:hover .left-square {
+  fill: #4ECDC4 !important;
+  stroke: #333 !important;
+  stroke-width: 2 !important;
+  filter: drop-shadow(0 0 3px rgba(78, 205, 196, 0.5));
+}
+
+.square-group:active .left-square {
+  fill: #FF6B6B !important;
+  stroke: #333 !important;
+  stroke-width: 2 !important;
+}
+
+.square-selected {
+  fill: #4ECDC4 !important;
+  stroke: #FF6B6B !important;
+  stroke-width: 3 !important;
+  filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+}
+
+/* Arduino Connection Overlay */
+.arduino-info {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+}
+
+.arduino-info .info {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 30px 40px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: normal;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  border: 3px solid #FF5252;
+}
+
+.arduino-info .info h3 {
+  color: #FF5252;
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.arduino-info .info p {
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+  color: #666;
+}
+
+.arduino-info .retry-button {
+  background-color: #FF5252;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.arduino-info .retry-button:hover {
+  background-color: #FF6B6B;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 82, 82, 0.3);
+}
+
+/* Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-content {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: popupSlideIn 0.3s ease-out;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.popup-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 20px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.popup-info {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.popup-info p {
+  margin: 0;
+  color: #666;
+  font-weight: bold;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* LED Toggle Styles */
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-label {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  background-color: #ccc;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-input:checked + .toggle-label {
+  background-color: #4ECDC4;
+}
+
+.toggle-switch {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 21px;
+  height: 21px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggle-input:checked + .toggle-label .toggle-switch {
+  transform: translateX(25px);
+}
+
+.toggle-text {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Color Input Styles */
+.color-input {
+  width: 50px;
+  height: 35px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+}
+
+.color-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.color-input:hover:not(:disabled) {
+  border-color: #4ECDC4;
+}
+
+/* Erweiterte Range Input Styles für LED-Helligkeit */
+.range-input {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.range-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sidebar {
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 900px) {
+  .hexagons-container {
+    padding: 10px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .hexagon-canvas {
+    width: 100%;
+    height: auto;
+  }
+  
+  .canvas-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .sidebar {
+    width: 100%;
+  }
+}
