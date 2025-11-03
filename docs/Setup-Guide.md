@@ -284,19 +284,13 @@ Open `http://localhost:5000` in browser. You should see the React app.
 
 ```bash
 # Update
-curl -X POST http://localhost:5000/api/update \
-  -H "Content-Type: application/json" \
-  -d '{"power":100,"charge":50,"time":30,"eeprom":1}'
+curl -X POST http://localhost:5000/api/update -H "Content-Type: application/json" -d '{"power":100,"charge":50,"time":30,"eeprom":1}'
 
 # Stop
-curl -X POST http://localhost:5000/api/stop \
-  -H "Content-Type: application/json" \
-  -d '{}'
+curl -X POST http://localhost:5000/api/stop -H "Content-Type: application/json" -d '{}'
 
 # LED
-curl -X POST http://localhost:5000/api/led \
-  -H "Content-Type: application/json" \
-  -d '{"ledID":1,"color":"#FF5733","forward":true,"pulseFrequenz":5}'
+curl -X POST http://localhost:5000/api/led -H "Content-Type: application/json" -d '{"ledID":1,"color":"#FF5733","forward":true,"pulseFrequenz":5}'
 ```
 
 ## Common Issues
