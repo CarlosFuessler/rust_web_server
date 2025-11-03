@@ -53,7 +53,7 @@ pub fn read_serial(
                 }
                 return Err("Timeout".to_string());
             }
-            Err(e) => return Err(format!("Fehler beim Lesen: {}", e)),
+            Err(e) => return Err(format!("Error while reading: {}", e)),
         }
     }
 }
