@@ -184,13 +184,7 @@ void setup()
 
 void loop()
 {
-  recvWithStartEndMarkers();
-  if (newData == true)
-  {
-    strcpy(tempChars, receivedChars); // Copy receivedChars to tempChars for parsing
-    parseCommand(tempChars);
-    newData = false; // Reset newData after processing
-  }
+  handleSerialInput();
   updateLEDPulseUltraLight();
   monitorRAM();
 }
