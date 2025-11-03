@@ -15,7 +15,7 @@ use std::time::Duration;
 /// - `"Arduino"` - Official Arduino boards
 /// - `"FTDI"` - FTDI USB-to-serial chips
 /// - `"CH340"` - CH340 USB-to-serial chips
-pub const MANUFACTURER: &str = "Microsoft";
+pub const MANUFACTURER: &str = "Arduino";
 
 /// Serial communication baud rate.
 ///
