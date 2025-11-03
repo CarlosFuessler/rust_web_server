@@ -28,11 +28,11 @@ pub async fn connect_arduino() -> Option<Box<dyn serialport::SerialPort>> {
         Ok(mut port) => {
             tokio::time::sleep(Duration::from_secs(2)).await;
             get_all_responses(&mut port);
-            println!("Arduino erfolgreich verbunden!");
+            println!("Arduino connected!");
             Some(port)
         }
         Err(e) => {
-            println!("Fehler beim Verbinden mit Arduino: {}", e);
+            println!("[Error] while connecting with Arduino: {}", e);
             None
         }
     }
@@ -44,7 +44,7 @@ pub async fn monitor_arduino_connection(state: AppState) {
 
         let mut arduino = state.arduino.lock().await;
         if arduino.is_none() {
-            println!("Versuche Arduino-Wiederverbindung...");
+            println!("Try connecting with Arduino...");
             *arduino = connect_arduino().await;
         }
     }
