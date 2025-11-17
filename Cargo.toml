@@ -11,7 +11,7 @@ serde_json = "1.0"
 tower = "0.4"
 tower-http = { version = "0.5", features = ["fs", "cors"] }
 serialport = "4.2"
-pyo3 = { version = "0.21", features = ["auto-initialize"] }
+pyo3 = { version = "0.22", features = ["auto-initialize"] }
 
 [dev-dependencies]
 futures = "0.3"
