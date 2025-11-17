@@ -33,7 +33,7 @@ use tokio::sync::Mutex;
 use tower_http::{cors::CorsLayer, services::ServeDir};
 
 use config::SERVER_PORT;
-use handlers::{led, scan, stop, update};
+use handlers::{led, scan, stop, update, create_network, run_simulation, get_bus_results, get_line_results, get_network_summary};
 use models::AppState;
 use serial::{connect_arduino, monitor_arduino_connection};
 
@@ -67,6 +67,11 @@ async fn main() {
 
     // Build router with API endpoints
     let app = Router::new()
+        .route("/api/grid/create", post(create_network))
+        .route("/api/grid/simulate", post(run_simulation))
+        .route("/api/grid/buses", get(get_bus_results))
+        .route("/api/grid/lines", get(get_line_results))
+        .route("/api/grid/summary", get(get_network_summary))
         .route("/api/update", post(update))
         .route("/api/stop", post(stop))
         .route("/api/led", post(led))
