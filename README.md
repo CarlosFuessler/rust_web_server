@@ -174,6 +174,29 @@ cargo build --release
 
 The production binary will be located at `target/release/webserver.exe` (Windows) or `target/release/webserver` (Unix).
 
+## Performance Profiling
+
+### Memory Profiling
+
+```bash
+cargo run --release --features dhat-heap --example memory_profile
+```
+
+Results saved to `dhat-heap.json`. View at [DHAT Viewer](https://nnethercote.github.io/dh_view/dh_view.html).
+
+### CPU Profiling
+
+```bash
+cargo install flamegraph
+cargo flamegraph --bin webserver
+```
+
+Linux users need `perf`:
+
+```bash
+sudo apt-get install linux-tools-$(uname -r)  # Ubuntu/Debian
+```
+
 ## Configuration
 
 Server configuration is centralized in `src/config.rs`:

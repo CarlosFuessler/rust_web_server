@@ -3,14 +3,18 @@ name = "webserver"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+dhat-heap = ["dhat"]
+
 [dependencies]
 axum = "0.7"
-tokio = { version = "1.38.0", features = ["full"] }
+tokio = { version = "1.38.0", features = ["rt-multi-thread", "net", "sync", "macros", "time"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tower = "0.4"
 tower-http = { version = "0.5", features = ["fs", "cors"] }
 serialport = "4.2"
+dhat = { version = "0.3", optional = true }
 
 [dev-dependencies]
 futures = "0.3"
@@ -23,3 +27,11 @@ path = "src/lib.rs"
 [[bin]]
 name = "webserver"
 path = "src/main.rs"
+
+[profile.release]
+opt-level = 3        # Maximum optimization
+lto = "thin"         # Link-time optimization (thin is faster than full)
+codegen-units = 1    # Better optimization at cost of compile time
+strip = false        # Keep symbols for profiling (set to true for production)
+panic = "abort"      # Smaller binary, slightly faster panics
+debug = true         # Enable debug info for profiling
