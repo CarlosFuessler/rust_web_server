@@ -1,9 +1,9 @@
 import React from "react";
 import "./Hexagons.css";
-import type { HexagonPopupProps } from "./types";
+import type { ControlPanelProps } from "./types";
 
 
-const HexagonPopup: React.FC<HexagonPopupProps> = ({
+const HexagonPopup: React.FC<ControlPanelProps> = ({
   selectedHexagon,
   selectedSquare,
   selectedLine,

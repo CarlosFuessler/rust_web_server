@@ -21,7 +21,6 @@ pub async fn scan(
 
     let port = arduino.as_mut().unwrap();
 
-    // First scan
     let response1 = match send_data(port, "SCAN()") {
         Ok(r) if !r.to_lowercase().starts_with("error") => r,
         Ok(_) | Err(_) => {
@@ -39,7 +38,6 @@ pub async fn scan(
     let formatted1 = format_response(&response1).ok();
     tokio::time::sleep(Duration::from_millis(100)).await;
 
-    // Second scan
     let response2 = match send_data(port, "SCAN()") {
         Ok(r) if !r.to_lowercase().starts_with("error") => r,
         Ok(_) | Err(_) => {
@@ -56,7 +54,6 @@ pub async fn scan(
 
     let formatted2 = format_response(&response2).ok();
 
-    // Compare first two scans
     if formatted1 == formatted2 {
         return Ok(Json(SuccessResponse {
             status: "success".to_string(),
@@ -68,7 +65,6 @@ pub async fn scan(
         }));
     }
 
-    // Third scan if different
     let response3 = match send_data(port, "SCAN()") {
         Ok(r) if !r.to_lowercase().starts_with("error") => r,
         Ok(_) | Err(_) => {
@@ -85,7 +81,6 @@ pub async fn scan(
 
     let formatted3 = format_response(&response3).ok();
 
-    // Check for pairs
     if formatted1 == formatted3 {
         Ok(Json(SuccessResponse {
             status: "success".to_string(),
@@ -105,7 +100,6 @@ pub async fn scan(
             data: formatted2,
         }))
     } else {
-        // No consistent pair found
         Ok(Json(SuccessResponse {
             status: "success".to_string(),
             sent: None,

@@ -56,7 +56,7 @@ export interface HexagonProps {
   backgroundImage?: string;
 }
 
-export interface HexagonPopupProps {
+export interface ControlPanelProps {
   selectedHexagon: HexagonPoint | null;
   selectedSquare?: SquarePoint | null;
   selectedLine?: LineData | null; // Neu: Support für ausgewählte Linien

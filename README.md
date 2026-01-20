@@ -1,53 +1,69 @@
-# Arduino Web Server
+# 🔌 Smart Grid Control Panel
 
-A high-performance web server for controlling Arduino devices via serial communication, built with Rust (Axum) backend and React TypeScript frontend.
+Ein professionelles Messeprojekt zur Steuerung eines dynamischen Stromnetzwerks mit umsteckbaren Modulen. Gebaut mit Rust (Axum) Backend und React TypeScript Frontend.
 
-## Features
+## ✨ Highlights
 
-- **Serial Communication**: Direct communication with Arduino devices
-- **REST API**: HTTP endpoints for device control (update, stop, LED, scan)
-- **Auto-Reconnection**: Automatic Arduino connection monitoring
-- **React Frontend**: Modern TypeScript-based UI
-- **CORS Enabled**: Cross-origin resource sharing support
-- **Type-Safe**: Leverages Rust's type system for reliability
+- **🎨 Industrielles Design**: Glassmorphism UI mit Premium Dark Theme
+- **💡 LED-Steuerung**: Echtzeit-Farbsteuerung der Stromnetzwerk-LEDs
+- **⚡ Dynamische Module**: Automatische Icon-Erkennung basierend auf Position
+- **📱 Responsive**: Optimiert für Desktop, Tablet und Mobile
+- **🔄 Live-Updates**: Echtzeit-Visualisierung des Netzwerkstatus
+- **⚙️ Arduino-Integration**: Serielle Kommunikation für Hardware-Steuerung
 
-## 📚 Documentation
+## 🎯 Für die Messe
 
-Comprehensive documentation is available in the [`docs/`](./docs/) directory:
+Dieses Projekt visualisiert und steuert ein physisches Stromnetzwerk mit:
+- **Hexagon-Module**: Solar, Wind, Batterie, Generator etc.
+- **LED-Verbindungen**: Zeigen Energiefluss mit steuerbaren Farben
+- **Haushalte**: Verbrauchssteuerung
+- **Umsteckbar**: Module werden automatisch erkannt
 
-- **[Architecture](./docs/Architecture.md)** - System design and module overview
-- **[API Reference](./docs/API-Reference.md)** - Complete API endpoint documentation
-- **[Setup Guide](./docs/Setup-Guide.md)** - Installation and configuration
-- **[Module Guide](./docs/Module-Guide.md)** - Detailed code module documentation
-- **[Development Guide](./docs/Development-Guide.md)** - Contributing and extending
-- **[Troubleshooting](./docs/Troubleshooting.md)** - Common issues and solutions
-
-## Prerequisites
-
-Before running this project, make sure you have the following installed:
-
-- [Rust](https://rustup.rs/) (latest stable version)
-- [Node.js](https://nodejs.org/) (version 16 or higher)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
-
-## Project Structure
-
-```
-rust_web_server/
-├── src/
-│   ├── main.rs              # Application entry point
-│   ├── config.rs            # Configuration constants
-│   ├── models/              # Data structures (DTOs, state)
-│   ├── handlers/            # API route handlers
-│   ├── serial/              # Serial communication layer
-│   ├── utils/               # Helper functions
-│   └── frontend/            # React TypeScript application
-├── docs/                    # Comprehensive documentation
-├── Cargo.toml               # Rust dependencies
-└── README.md                # This file
+### Quick Demo (30 Sekunden)
+```bash
+1. cargo run --release
+2. Browser: http://localhost:8088
+3. Klick auf LED-Linie → Farbe wählen → Anwenden
+4. ✨ LED leuchtet in gewählter Farbe!
 ```
 
-## Quick Start
+## 📚 Dokumentation
+
+### Sofort loslegen
+- **[🚀 Quick Start](./docs/QUICK_START.md)** - In 3 Schritten zur Demo
+- **[🎤 Messe-Guide](./docs/MESSE_GUIDE.md)** - Präsentations-Scripts & Demo-Szenarien
+- **[🎨 UI-Komponenten](./docs/UI_COMPONENTS.md)** - Design System & Komponenten-Referenz
+
+### Vollständige Docs
+- **[📋 Frontend Update](./docs/FRONTEND_UPDATE.md)** - Vollständige Feature-Liste
+- **[🏗️ Architecture](./docs/Architecture.md)** - System-Design
+- **[📡 API Reference](./docs/API-Reference.md)** - REST API Endpoints
+- **[⚙️ Setup Guide](./docs/Setup-Guide.md)** - Installation & Konfiguration
+- **[🔧 Testing Guide](./docs/Testing-Guide.md)** - Test-Strategien
+
+## 🎨 Screenshots
+
+### Desktop - Hauptansicht
+```
+┌──────────────────────────────────────────────┐
+│  Smart Grid Control    [◑]  🟢 Verbunden    │
+├──────────┬───────────────────────────────────┤
+│  LED     │         ⬡   ⬡   ⬡                │
+│ ┌──────┐ │           ⬡   ⬡                  │
+│ │ [🎨]  │ │         ⬡   ⬡   ⬡                │
+│ │ ████  │ │                                  │
+│ │#3B82F6│ │    Animierte LED-Verbindungen    │
+│ └──────┘ │    mit Energy-Flow-Effekten      │
+│          │                                   │
+│ [→][←]   │         ■  ■  ■  ■               │
+│ ━━━●━━   │         ■  ■  ■  ■    Haushalte  │
+│          │         ■  ■  ■  ■               │
+│          │                                   │
+│ [✓ Apply]│                                   │
+└──────────┴───────────────────────────────────┘
+```
+
+## 🚀 Quick Start
 
 ### Option 1: Run with Frontend (Recommended)
 

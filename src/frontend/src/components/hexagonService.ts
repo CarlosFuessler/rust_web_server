@@ -123,7 +123,7 @@ export const hexagonService = {
     ledPulsFrequenz: number
   ) {
     const requestData = {
-      ledID: lineLabel,
+      ledID: parseInt(lineLabel, 10), // Backend erwartet i32
       forward: ledForward,
       color: ledColor,
       pulseFrequenz: ledPulsFrequenz,

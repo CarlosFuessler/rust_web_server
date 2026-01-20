@@ -5,6 +5,7 @@ import industry from '../assets/industry-neo-mediumorchid-symbol-classic-solid.p
 import solarPanel from '../assets/solarpanel-neo-mediumorchid-symbol-classic-solid.png';
 import tankWater from '../assets/tankwater-neo-mediumorchid-symbol-classic-solid.png';
 import windTurbine from '../assets/windturbine-neo-mediumorchid-symbol-classic-solid.png';
+import { setCacheImage, initializeImageCache } from './imageCache';
 
 // Interface für ein Asset
 export interface ImageAsset {
@@ -51,13 +52,27 @@ export const imageAssets: Record<string, ImageAsset> = {
     image: windTurbine,
     text: 'Windrad',
     description: 'Windkraftanlage'
+  },
+  household: {
+    id: 'household',
+    image: industry, // Verwende industry als Platzhalter
+    text: 'Haushalt',
+    description: 'Haushalt'
   }
 };
 
 // Hilfsfunktionen
 export const getImageAsset = (id: string): ImageAsset | undefined => {
-  return imageAssets[id];
+  const asset = imageAssets[id];
+  if (asset) {
+    // Setze Bild in Cache für späteren Zugriff
+    setCacheImage(id, asset.image);
+  }
+  return asset;
 };
+
+// Initialisiere Cache beim Modul-Import
+initializeImageCache(imageAssets);
 
 export const getAllImageAssets = (): ImageAsset[] => {
   return Object.values(imageAssets);
