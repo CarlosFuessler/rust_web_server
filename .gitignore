@@ -1,5 +1,27 @@
+# Rust build artifacts
 /target
-/frontend
-__pycache__/
+target/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
 .DS_Store
-.idea
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Node.js and frontend
+node_modules/
+src/frontend/node_modules/
+src/frontend/build/
+dist/
+.env.local
+.env.*.local
+
+# OS files
+Thumbs.db
