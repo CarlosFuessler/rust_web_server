@@ -8,13 +8,13 @@ use std::time::Duration;
 /// Arduino manufacturer name used for device discovery.
 ///
 /// This string is matched against the manufacturer field of USB serial devices
-/// to identify the correct Arduino port.
-///
-/// Common values:
-/// - `"Microsoft"` - Generic USB serial adapters on Windows
-/// - `"Arduino"` - Official Arduino boards
-/// - `"FTDI"` - FTDI USB-to-serial chips
-/// - `"CH340"` - CH340 USB-to-serial chips
+/// to identify the correct Arduino port. Automatically set based on the operating system:
+/// - Windows: `"Microsoft"`
+/// - Linux: `"Arduino"`
+#[cfg(target_os = "windows")]
+pub const MANUFACTURER: &str = "Microsoft";
+
+#[cfg(target_os = "linux")]
 pub const MANUFACTURER: &str = "Arduino";
 
 /// Serial communication baud rate.
