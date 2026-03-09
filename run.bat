@@ -39,7 +39,7 @@ if "%BUILD_FRONTEND%"=="true" (
     )
     
     echo Installing dependencies...
-    call npm install
+    call npm install --legacy-peer-deps
     
     echo Building React app...
     call npm run build

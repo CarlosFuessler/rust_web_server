@@ -43,7 +43,7 @@ build_frontend() {
     fi
     
     echo -e "${BLUE}Installing dependencies...${NC}"
-    npm install
+    npm install --legacy-peer-deps
     
     echo -e "${BLUE}Building React app...${NC}"
     npm run build
@@ -140,5 +140,4 @@ while true; do
             ;;
     esac
 done
-
 
