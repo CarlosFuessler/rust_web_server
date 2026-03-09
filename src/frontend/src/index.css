@@ -13,33 +13,34 @@
 
 /* Root Variables - Sleek Light Theme (Default) */
 :root {
-  /* Colors - Light Theme as Default */
-  --bg-app: #f1f5f9;
-  --bg-panel: rgba(255, 255, 255, 0.85);
-  --bg-control: rgba(0, 0, 0, 0.04);
-  --bg-control-hover: rgba(0, 0, 0, 0.06);
+  /* Colors - Fraunhofer IEE inspired */
+  --bg-app: #edf3f0;
+  --bg-panel: rgba(255, 255, 255, 0.94);
+  --bg-control: rgba(20, 51, 48, 0.05);
+  --bg-control-hover: rgba(20, 51, 48, 0.1);
   
-  --text-primary: #1e293b;
-  --text-secondary: #64748b;
-  --text-tertiary: #94a3b8;
+  --text-primary: #143330;
+  --text-secondary: #4a6360;
+  --text-tertiary: #6f8682;
   
-  --border-subtle: rgba(0, 0, 0, 0.06);
-  --border-highlight: rgba(0, 0, 0, 0.1);
+  --border-subtle: rgba(20, 51, 48, 0.12);
+  --border-highlight: rgba(20, 51, 48, 0.2);
   
-  /* Accents - Sophisticated Gradients */
-  --accent-primary: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.5);
-  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  /* Fraunhofer green accents */
+  --accent-primary: #008c6e;
+  --accent-secondary: #6abf4b;
+  --accent-glow: rgba(0, 140, 110, 0.28);
+  --accent-gradient: linear-gradient(135deg, #008c6e 0%, #6abf4b 100%);
   
-  --success: #10b981;
-  --danger: #ef4444;
-  --warning: #f59e0b;
+  --success: #0f9d58;
+  --danger: #d64545;
+  --warning: #d69e2e;
   
   /* Effects */
-  --glass-blur: blur(20px);
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+  --glass-blur: blur(12px);
+  --shadow-sm: 0 4px 10px rgba(19, 45, 42, 0.08);
+  --shadow-lg: 0 20px 40px rgba(19, 45, 42, 0.12);
+  --shadow-glow: 0 0 24px rgba(0, 140, 110, 0.16);
   
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -55,14 +56,14 @@
 
 /* Dark Theme Override */
 [data-theme="dark"] {
-  --bg-app: #0f1115; /* Deep luxury dark */
-  --bg-panel: rgba(22, 24, 29, 0.75); /* Glassy panel */
+  --bg-app: #101714;
+  --bg-panel: rgba(17, 28, 25, 0.86);
   --bg-control: rgba(255, 255, 255, 0.05);
   --bg-control-hover: rgba(255, 255, 255, 0.08);
   
   --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --text-tertiary: #64748b;
+  --text-secondary: #a3b8b4;
+  --text-tertiary: #7d9490;
   
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-highlight: rgba(255, 255, 255, 0.15);
@@ -70,7 +71,7 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg-app);
+  background: linear-gradient(180deg, #f4f8f6 0%, var(--bg-app) 100%);
   color: var(--text-primary);
   line-height: 1.5;
   overflow: hidden; /* App-like feel */

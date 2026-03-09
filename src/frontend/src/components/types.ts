@@ -3,6 +3,11 @@ export interface HexagonPoint {
   y: number;
   row: number;
   col: number;
+  id?: string;
+  label?: string;
+  radius?: number;
+  backgroundImage?: string;
+  type?: number;
 }
 
 export interface SquarePoint {
@@ -26,8 +31,9 @@ export interface LineData {
   y1: number;
   x2: number;
   y2: number;
-  label?: string; // Optionales Label für die Linie
-  id?: string; // Optionale eindeutige ID für die Linie
+  label?: string;
+  id?: string;
+  color?: string;
 }
 
 export interface LineLabel {

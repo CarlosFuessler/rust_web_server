@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import "./Hexagons.css";
 import ControlPanel from "./ControlPanel";
-import Hexagon from "./Hexagon";
-import ThemeSwitcher from "./ThemeSwitcher";
+import CityScene3D from "./CityScene3D";
+import SceneControls, { TimeOfDay, Weather } from "./SceneControls";
 import { useTheme } from "./ThemeProvider";
 import type {
   HexagonPoint,
@@ -25,6 +25,7 @@ import { getImageAsset } from "./imageAssets";
 
 const Hexagons: React.FC = () => {
   const { backgroundImage } = useTheme();
+  // state
   const [selectedHexagon, setSelectedHexagon] = useState<HexagonPoint | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<SquarePoint | null>(null);
   const [selectedLine, setSelectedLine] = useState<LineData | null>(null);
@@ -33,7 +34,12 @@ const Hexagons: React.FC = () => {
   const [time, setTime] = useState(24);
   const [positionData, setPositionData] = useState<PositionData[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [arduinoConnected, setArduinoConnected] = useState(true);
+  const [webserverConnected, setWebserverConnected] = useState(true);
+  const [lineColors, setLineColors] = useState<Record<string, string>>({});
+
+  // Scene environment state
+  const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>("day");
+  const [weather, setWeather] = useState<Weather>("clear");
 
   // LED-spezifische State-Variablen
   const [ledForward, setLedForward] = useState(true);
@@ -55,10 +61,11 @@ const Hexagons: React.FC = () => {
   const squareOffset = 2 * squareSize;
 
   // Memoize Grid Calculations
-  const { svgWidth, svgHeight, offsetX, offsetY, xSpacing, ySpacing } = useMemo(() => 
+  const gridDims = useMemo(() => 
     calculateGridDimensions(hexRadius, cols, rows, padding, squareOffset),
     [hexRadius, cols, rows, padding, squareOffset]
   );
+  const { offsetX, offsetY, xSpacing, ySpacing } = gridDims;
 
   const squares = useMemo(() => 
     calculateHouseHoldPoints(squareSize, squareYSpacing, squarexSpacing, squareRows, squareCols),
@@ -70,9 +77,18 @@ const Hexagons: React.FC = () => {
     [cols, rows, offsetX, offsetY, xSpacing, ySpacing]
   );
 
-  const lines = useMemo(() => 
+  const baseLines = useMemo(() => 
     calculateHexagonLines(points, cols, rows, xSpacing, ySpacing),
     [points, cols, rows, xSpacing, ySpacing]
+  );
+
+  const lines = useMemo(
+    () =>
+      baseLines.map((line) => ({
+        ...line,
+        color: line.id ? lineColors[line.id] ?? line.color : line.color,
+      })),
+    [baseLines, lineColors]
   );
 
   // Memoize Position Map for O(1) lookups
@@ -91,9 +107,12 @@ const Hexagons: React.FC = () => {
       try {
         const result = await hexagonService.getPositions();
         if (isMounted) {
+          setWebserverConnected(Boolean(result.serverReachable));
+          if (result.serverReachable) {
+            setLastUpdate(new Date());
+          }
+
           if (result.success && result.result?.data) {
-            setArduinoConnected(true);
-            
             // Only update if data actually changed
             setPositionData(prev => {
               const newData = result.result!.data;
@@ -108,20 +127,18 @@ const Hexagons: React.FC = () => {
               if (hasChanged) {
                 fetchCount++;
                 console.log(`📡 Position Update #${fetchCount}: ${newData.length} Module erkannt`);
-                setLastUpdate(new Date());
                 return newData;
               }
               return prev;
             });
           } else {
-            console.warn('⚠️ Keine Daten vom Server erhalten');
-            setArduinoConnected(true);
+            console.warn("⚠️ Keine Moduldaten vom Webserver erhalten");
           }
         }
       } catch (error) {
         console.error("❌ Fehler beim Abrufen der Positionen:", error);
         if (isMounted) {
-          setArduinoConnected(false);
+          setWebserverConnected(false);
         }
       }
     };
@@ -165,6 +182,19 @@ const Hexagons: React.FC = () => {
     return positionMap.get(eeprom)?.TYPE;
   }, [positionMap]);
 
+  // Enrich hex points with backgroundImage and type for 3D rendering
+  const enrichedHexPoints = useMemo((): HexagonPoint[] =>
+    points.map(p => {
+      const label = getHexagonLabel(p);
+      return {
+        ...p,
+        label,
+        backgroundImage: getHexagonBackgroundImage(label),
+        type: getHexagonType(label),
+        radius: hexRadius * 0.02, // match SCALE constant
+      };
+    }), [points, getHexagonBackgroundImage, getHexagonType, hexRadius]);
+
   // Event Handlers
   const handleHexagonClick = useCallback((point: HexagonPoint) => {
     setSelectedHexagon(point);
@@ -182,7 +212,18 @@ const Hexagons: React.FC = () => {
     setSelectedLine(line);
     setSelectedHexagon(null);
     setSelectedSquare(null);
+    setLedColor(line.color ?? "#ffffff");
   }, []);
+
+  const handleLedColorChange = useCallback(
+    (newColor: string) => {
+      setLedColor(newColor);
+      if (selectedLine?.id) {
+        setLineColors((prev) => ({ ...prev, [selectedLine.id!]: newColor }));
+      }
+    },
+    [selectedLine]
+  );
 
   const handleSendSubmit = async () => {
     if (selectedHexagon) {
@@ -202,7 +243,11 @@ const Hexagons: React.FC = () => {
           ledColor,
           ledPulsFrequenz
         );
-        if (!result.success) console.error("Line update failed:", result.error);
+        if (!result.success) {
+          console.error("Line update failed:", result.error);
+        } else if (selectedLine.id) {
+          setLineColors((prev) => ({ ...prev, [selectedLine.id!]: ledColor }));
+        }
       }
     }
   };
@@ -230,6 +275,14 @@ const Hexagons: React.FC = () => {
     if (!result.success) console.error("Reset failed:", result.error);
   };
 
+  const handleReconnectCheck = async () => {
+    const result = await hexagonService.getPositions();
+    setWebserverConnected(Boolean(result.serverReachable));
+    if (result.serverReachable) {
+      setLastUpdate(new Date());
+    }
+  };
+
   const handleClosePopup = useCallback(() => {
     setSelectedHexagon(null);
     setSelectedSquare(null);
@@ -237,43 +290,39 @@ const Hexagons: React.FC = () => {
   }, []);
 
   return (
-    <div 
-      className="dashboard-layout" 
-      style={{
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div className="dashboard-layout">
       {/* Connection Warning Banner */}
-      {!arduinoConnected && (
+      {!webserverConnected && (
         <div className="connection-banner">
-          ⚠ Verbindung unterbrochen
-          <button onClick={() => setArduinoConnected(true)}>Reconnect</button>
+          Webserver nicht erreichbar
+          <button onClick={handleReconnectCheck}>Reconnect</button>
         </div>
       )}
-      
-      {/* Status Indicator */}
-      <div className="status-bar">
+
+      <header className="status-bar">
         <div className="status-bar-left">
-          <div className={`connection-status ${arduinoConnected ? 'connected' : 'disconnected'}`}>
-            <span className="status-dot"></span>
-            {arduinoConnected ? 'Verbunden' : 'Getrennt'}
-          </div>
-          {lastUpdate && (
-            <div className="last-update">
-              {lastUpdate.toLocaleTimeString('de-DE')}
+          <div className="brand-block">
+            <span className="brand-mark" aria-hidden="true" />
+            <div className="brand-text">
+              <span className="brand-name">Fraunhofer IEE</span>
+              <span className="brand-subtitle">Smart Grid Control</span>
             </div>
-          )}
+          </div>
+          <div className={`connection-status ${webserverConnected ? "" : "disconnected"}`}>
+            <span className="status-dot" />
+            <span>{webserverConnected ? "Webserver online" : "Webserver offline"}</span>
+          </div>
         </div>
         <div className="status-bar-right">
-          <ThemeSwitcher />
+          <span className="last-update">
+            {lastUpdate
+              ? `Letztes Update ${lastUpdate.toLocaleTimeString("de-DE")}`
+              : "Warte auf Sensordaten"}
+          </span>
         </div>
-      </div>
+      </header>
 
-      {/* Control Panel Modal - optimiert für Performance */}
+      {/* Control Panel Modal */}
       {(selectedHexagon || selectedSquare || selectedLine) && (
         <div className="control-modal-overlay" onClick={handleClosePopup}>
           <div className="control-modal" onClick={(e) => e.stopPropagation()}>
@@ -299,7 +348,7 @@ const Hexagons: React.FC = () => {
               ledColor={ledColor}
               ledPulsFrequenz={ledPulsFrequenz}
               onLedForwardChange={setLedForward}
-              onLedColorChange={setLedColor}
+              onLedColorChange={handleLedColorChange}
               onLedPulsFrequenzChange={setLedPulsFrequenz}
               onClose={handleClosePopup}
             />
@@ -307,67 +356,27 @@ const Hexagons: React.FC = () => {
         </div>
       )}
 
+      {/* 3D City Scene fills the whole viewport */}
       <main className="main-content">
         <div className="canvas-wrapper">
-          <svg 
-            width="100%" 
-            height="100%" 
-            viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-            className="hexagon-canvas"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            {/* Lines */}
-            <g className="lines">
-              {lines.map((line, index) => (
-                <line
-                  key={`line-${index}`}
-                  x1={line.x1}
-                  y1={line.y1}
-                  x2={line.x2}
-                  y2={line.y2}
-                  className={`hexline ${selectedLine === line ? "selected-line" : ""}`}
-                  onClick={() => handleLineClick(line)}
-                />
-              ))}
-            </g>
-
-            {/* Squares */}
-            <g className="squares">
-              {squares.map((square) => (
-                <rect
-                  key={`square-${square.index}`}
-                  x={square.x}
-                  y={square.y}
-                  width={square.width}
-                  height={square.height}
-                  className={`left-square ${selectedSquare?.index === square.index ? "square-selected" : ""}`}
-                  onClick={() => handleSquareClick(square)}
-                  rx="4"
-                  ry="4"
-                />
-              ))}
-            </g>
-
-            {/* Hexagons */}
-            <g className="hexagons">
-              {points.map((point) => {
-                const label = getHexagonLabel(point);
-                return (
-                  <Hexagon
-                    key={`${point.row}-${point.col}`}
-                    point={point}
-                    radius={hexRadius}
-                    isSelected={
-                      selectedHexagon?.row === point.row &&
-                      selectedHexagon?.col === point.col
-                    }
-                    onClick={handleHexagonClick}
-                    backgroundImage={getHexagonBackgroundImage(label)}
-                  />
-                );
-              })}
-            </g>
-          </svg>
+          <CityScene3D
+            hexPoints={enrichedHexPoints}
+            squarePoints={squares}
+            lines={lines}
+            selectedHex={selectedHexagon}
+            selectedSquare={selectedSquare}
+            selectedLine={selectedLine}
+            onHexClick={handleHexagonClick}
+            onSquareClick={handleSquareClick}
+            onLineClick={handleLineClick}
+            backgroundImage={backgroundImage}
+            timeOfDay={timeOfDay}
+            weather={weather}
+          />
+          <SceneControls
+            timeOfDay={timeOfDay} weather={weather}
+            onTimeChange={setTimeOfDay} onWeatherChange={setWeather}
+          />
         </div>
       </main>
     </div>

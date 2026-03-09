@@ -6,22 +6,26 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: var(--bg-app);
+  background: #060d1a;
   overflow: hidden;
 }
 
-/* Winter Background */
-.dashboard-layout::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--bg-image);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.25;
-  z-index: 0;
+/* Scene hint */
+.scene-hint {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: rgba(148, 163, 184, 0.8);
+  font-size: 0.75rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  z-index: 50;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 /* Status Bar */
@@ -419,5 +423,154 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+}
+
+/* Fraunhofer IEE Clean Visual Refresh */
+.dashboard-layout {
+  background: linear-gradient(180deg, #f6faf8 0%, var(--bg-app) 100%);
+}
+
+.status-bar {
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  max-width: calc(100% - 1.5rem);
+}
+
+.status-bar-left {
+  gap: 0.875rem;
+  min-width: 0;
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 140, 110, 0.24);
+  background: rgba(0, 140, 110, 0.08);
+}
+
+.brand-mark {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: var(--accent-gradient);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.brand-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.brand-subtitle {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.connection-status {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bg-control);
+  border: 1px solid var(--border-subtle);
+}
+
+.status-dot {
+  background: var(--success);
+  box-shadow: 0 0 0 2px rgba(15, 157, 88, 0.18);
+}
+
+.connection-status.disconnected .status-dot {
+  background: var(--danger);
+  box-shadow: 0 0 0 2px rgba(214, 69, 69, 0.2);
+}
+
+.last-update {
+  color: var(--text-secondary);
+}
+
+.control-modal-overlay {
+  background: rgba(20, 38, 35, 0.28);
+  backdrop-filter: blur(5px);
+}
+
+.control-modal {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-highlight);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+}
+
+.modal-close {
+  background: var(--bg-control);
+  border: 1px solid var(--border-subtle);
+}
+
+.modal-close:hover {
+  background: var(--bg-control-hover);
+}
+
+.main-content {
+  background:
+    radial-gradient(circle at center, rgba(0, 140, 110, 0.08) 0%, transparent 65%),
+    linear-gradient(90deg, rgba(20, 51, 48, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(20, 51, 48, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 44px 44px, 44px 44px;
+}
+
+.canvas-wrapper::before {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 140, 110, 0.08) 0%, transparent 55%);
+}
+
+.hexagon:hover {
+  stroke: var(--accent-primary);
+  filter: drop-shadow(0 0 12px var(--accent-glow)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
+}
+
+.hexagon-selected {
+  stroke: var(--accent-primary);
+  fill: rgba(0, 140, 110, 0.1);
+  filter: drop-shadow(0 0 14px rgba(0, 140, 110, 0.5)) drop-shadow(0 0 20px rgba(0, 140, 110, 0.25));
+}
+
+.hexline {
+  stroke: rgba(0, 140, 110, 0.3);
+  filter: drop-shadow(0 0 2px rgba(0, 140, 110, 0.25));
+}
+
+.hexline:hover {
+  stroke: rgba(0, 140, 110, 0.68);
+}
+
+.selected-line {
+  stroke: var(--accent-primary);
+  filter: drop-shadow(0 0 10px rgba(0, 140, 110, 0.65)) drop-shadow(0 0 16px rgba(0, 140, 110, 0.35));
+}
+
+.hexline-glow {
+  stroke: var(--accent-primary);
+}
+
+@media (max-width: 768px) {
+  .status-bar {
+    gap: 0.75rem;
+  }
+
+  .brand-subtitle {
+    display: none;
   }
 }

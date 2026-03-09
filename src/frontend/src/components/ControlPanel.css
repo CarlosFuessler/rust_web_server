@@ -477,3 +477,256 @@
   background: rgba(255, 255, 255, 0.08);
   border-color: var(--text-secondary);
 }
+
+/* Fraunhofer IEE Clean Panel Overrides */
+.control-panel {
+  gap: 1rem;
+}
+
+.empty-state-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.pulse-icon {
+  background: radial-gradient(circle, rgba(0, 140, 110, 0.14), transparent 70%);
+  animation: none;
+}
+
+.pulse-icon svg {
+  color: var(--accent-primary);
+  filter: none;
+}
+
+.quick-action-btn {
+  background: var(--bg-control);
+  border: 1px solid var(--border-subtle);
+}
+
+.quick-action-btn:hover {
+  background: var(--bg-control-hover);
+  border-color: var(--border-highlight);
+  transform: none;
+}
+
+.quick-action-btn.danger {
+  color: #b93f3f;
+  border-color: rgba(185, 63, 63, 0.3);
+}
+
+.quick-action-btn.danger:hover {
+  background: rgba(185, 63, 63, 0.08);
+  border-color: #b93f3f;
+}
+
+.control-section {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-subtle);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--accent-primary);
+  filter: none;
+}
+
+.section-header h3 {
+  color: var(--text-primary);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  text-shadow: none;
+  font-size: 1.05rem;
+}
+
+.led-color-control label,
+.control-item label {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+}
+
+.color-preview-wrapper {
+  padding: 1rem;
+  background: var(--bg-control);
+  border: 1px solid var(--border-subtle);
+}
+
+.color-picker-input {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--border-subtle);
+}
+
+.color-picker-input:hover {
+  border-color: var(--accent-primary);
+  transform: none;
+  box-shadow: none;
+}
+
+.color-preview {
+  height: 64px;
+  border: 1px solid var(--border-subtle);
+}
+
+.color-glow {
+  animation: none;
+  opacity: 0.35;
+}
+
+.color-hex {
+  color: var(--text-primary);
+  text-shadow: none;
+  font-size: 1rem;
+}
+
+.value-badge {
+  background: var(--accent-gradient);
+  box-shadow: none;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.625rem;
+}
+
+.direction-btn {
+  padding: 0.75rem;
+  background: var(--bg-control);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.direction-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.direction-btn:hover {
+  background: var(--bg-control-hover);
+  border-color: var(--border-highlight);
+  color: var(--text-primary);
+}
+
+.direction-btn.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #fff;
+}
+
+.frequency-slider {
+  height: 6px;
+  border-radius: 999px;
+}
+
+.frequency-slider::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+.frequency-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+}
+
+.param-control {
+  margin-bottom: 1.5rem;
+}
+
+.param-header {
+  margin-bottom: 0.75rem;
+}
+
+.param-header span:first-child {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.param-value {
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  text-shadow: none;
+}
+
+.param-value.positive {
+  color: #0f9d58;
+  text-shadow: none;
+}
+
+.param-value.negative {
+  color: #c24a43;
+  text-shadow: none;
+}
+
+.power-slider,
+.charge-slider,
+.time-slider {
+  height: 8px;
+  box-shadow: none;
+}
+
+.power-slider::-webkit-slider-thumb,
+.charge-slider::-webkit-slider-thumb,
+.time-slider::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ffffff;
+}
+
+.param-labels span {
+  color: var(--text-secondary);
+}
+
+.action-panel {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.25rem;
+}
+
+.action-btn {
+  padding: 0.95rem 1.25rem;
+  text-transform: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.action-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.action-btn.primary {
+  background: var(--accent-gradient);
+  box-shadow: none;
+}
+
+.action-btn.primary:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.action-btn.secondary {
+  background: var(--bg-control);
+  border: 1px solid var(--border-subtle);
+}
+
+.action-btn.secondary:hover {
+  background: var(--bg-control-hover);
+  border-color: var(--border-highlight);
+}
+
+@media (max-width: 640px) {
+  .control-row {
+    grid-template-columns: 1fr;
+  }
+
+  .color-preview-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

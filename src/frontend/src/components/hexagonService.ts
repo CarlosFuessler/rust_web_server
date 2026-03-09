@@ -91,12 +91,14 @@ export const hexagonService = {
       if (response.ok) {
         const result = await response.json();
         console.log("Positions successful:", result);
-        return { success: true, result };
+        return { success: true, result, serverReachable: true, status: response.status };
       } else if (response.status === 503){
             console.warn("No arduino connected. Please connect one and try again.", response.status, response.statusText);
             return {
               success: false,
               error: `${response.status} ${response.statusText}`,
+              serverReachable: true,
+              status: response.status,
             };
       }
        else {
@@ -104,6 +106,8 @@ export const hexagonService = {
         return {
           success: false,
           error: `${response.status} ${response.statusText}`,
+          serverReachable: true,
+          status: response.status,
         };
       }
     } catch (error) {
@@ -111,6 +115,7 @@ export const hexagonService = {
       return {
         success: false,
         error: error instanceof Error ? error.message : "Network error",
+        serverReachable: false,
       };
     }
   },

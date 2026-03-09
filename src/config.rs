@@ -11,10 +11,14 @@ use std::time::Duration;
 /// to identify the correct Arduino port. Automatically set based on the operating system:
 /// - Windows: `"Microsoft"`
 /// - Linux: `"Arduino"`
+/// - macOS: `"Arduino"`
 #[cfg(target_os = "windows")]
 pub const MANUFACTURER: &str = "Microsoft";
 
 #[cfg(target_os = "linux")]
+pub const MANUFACTURER: &str = "Arduino";
+
+#[cfg(target_os = "macos")]
 pub const MANUFACTURER: &str = "Arduino";
 
 /// Serial communication baud rate.
