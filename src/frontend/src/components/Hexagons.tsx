@@ -275,14 +275,6 @@ const Hexagons: React.FC = () => {
     if (!result.success) console.error("Reset failed:", result.error);
   };
 
-  const handleReconnectCheck = async () => {
-    const result = await hexagonService.getPositions();
-    setWebserverConnected(Boolean(result.serverReachable));
-    if (result.serverReachable) {
-      setLastUpdate(new Date());
-    }
-  };
-
   const handleClosePopup = useCallback(() => {
     setSelectedHexagon(null);
     setSelectedSquare(null);
@@ -291,21 +283,12 @@ const Hexagons: React.FC = () => {
 
   return (
     <div className="dashboard-layout">
-      {/* Connection Warning Banner */}
-      {!webserverConnected && (
-        <div className="connection-banner">
-          Webserver nicht erreichbar
-          <button onClick={handleReconnectCheck}>Reconnect</button>
-        </div>
-      )}
-
       <header className="status-bar">
         <div className="status-bar-left">
           <div className="brand-block">
-            <span className="brand-mark" aria-hidden="true" />
+            <img className="brand-logo" src="/fraunhofer.png" alt="Fraunhofer logo" />
             <div className="brand-text">
               <span className="brand-name">Fraunhofer IEE</span>
-              <span className="brand-subtitle">Smart Grid Control</span>
             </div>
           </div>
           <div className={`connection-status ${webserverConnected ? "" : "disconnected"}`}>
@@ -313,13 +296,13 @@ const Hexagons: React.FC = () => {
             <span>{webserverConnected ? "Webserver online" : "Webserver offline"}</span>
           </div>
         </div>
-        <div className="status-bar-right">
-          <span className="last-update">
-            {lastUpdate
-              ? `Letztes Update ${lastUpdate.toLocaleTimeString("de-DE")}`
-              : "Warte auf Sensordaten"}
-          </span>
-        </div>
+        {lastUpdate && (
+          <div className="status-bar-right">
+            <span className="last-update">
+              {`Letztes Update ${lastUpdate.toLocaleTimeString("de-DE")}`}
+            </span>
+          </div>
+        )}
       </header>
 
       {/* Control Panel Modal */}

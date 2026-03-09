@@ -324,65 +324,6 @@
   50% { opacity: 0.5; }
 }
 
-/* Connection Banner - Industrial Alert */
-.connection-banner {
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: var(--radius-md);
-  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  z-index: 50;
-  backdrop-filter: blur(12px);
-  font-size: 0.875rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: alert-pulse 2s ease-in-out infinite;
-}
-
-@keyframes alert-pulse {
-  0%, 100% { box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1); }
-  50% { box-shadow: 0 8px 32px rgba(239, 68, 68, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2); }
-}
-
-.connection-banner::before {
-  content: '⚠';
-  font-size: 1.25rem;
-  animation: shake 0.5s ease-in-out infinite;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  75% { transform: translateX(2px); }
-}
-
-.connection-banner button {
-  background: white;
-  color: var(--danger);
-  padding: 0.375rem 1rem;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.connection-banner button:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
 /* Responsive Breakpoints */
 @media (max-width: 1024px) {
   .control-modal {
@@ -456,18 +397,15 @@
   background: rgba(0, 140, 110, 0.08);
 }
 
-.brand-mark {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
-  background: var(--accent-gradient);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
 }
 
 .brand-text {
   display: flex;
-  flex-direction: column;
-  line-height: 1.1;
+  align-items: center;
 }
 
 .brand-name {
@@ -475,11 +413,6 @@
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 0.02em;
-}
-
-.brand-subtitle {
-  font-size: 0.68rem;
-  color: var(--text-secondary);
 }
 
 .connection-status {
