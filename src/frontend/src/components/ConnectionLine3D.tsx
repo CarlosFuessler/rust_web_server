@@ -35,7 +35,7 @@ const ConnectionLine3D: React.FC<ConnectionLine3DProps> = ({
   const emissiveI = isSelected ? 1.2 : line.color ? (isNight ? 0.9 : 0.7) : (isNight ? 0.75 : 0.55);
 
   useFrame(({ clock }) => {
-    if (!materialRef.current) return;
+    if (!materialRef.current) return; // Hier überprüft man ob materialRef gleich null ist 
     if (isSelected) {
       materialRef.current.emissiveIntensity = 0.75 + Math.sin(clock.getElapsedTime() * 4) * 0.35;
     }
