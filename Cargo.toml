@@ -30,7 +30,7 @@ path = "src/main.rs"
 
 [profile.release]
 opt-level = 3        # Maximum optimization
-lto = "thin"         # Link-time optimization (thin is faster than full)
+lto = "yes"         # Link-time optimization (thin is faster than full)
 codegen-units = 1    # Better optimization at cost of compile time
 strip = false        # Keep symbols for profiling (set to true for production)
 panic = "abort"      # Smaller binary, slightly faster panics
