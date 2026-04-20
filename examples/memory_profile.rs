@@ -17,6 +17,7 @@ async fn main() {
     let arduino_port = connect_arduino().await;
     let state = AppState {
         arduino: Arc::new(Mutex::new(arduino_port)),
+        scan_cache: Arc::new(Mutex::new(None)),
     };
 
     // Simulate workload

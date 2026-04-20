@@ -11,6 +11,7 @@ use tower_http::cors::CorsLayer;
 pub fn create_test_app() -> Router {
     let state = webserver::models::AppState {
         arduino: Arc::new(Mutex::new(None)),
+        scan_cache: Arc::new(Mutex::new(None)),
     };
 
     Router::new()

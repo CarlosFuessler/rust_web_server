@@ -55,6 +55,10 @@ pub async fn scan(
     let formatted2 = format_response(&response2).ok();
 
     if formatted1 == formatted2 {
+        if let Some(data) = &formatted1 {
+            *state.scan_cache.lock().await = Some(data.clone());
+        }
+
         return Ok(Json(SuccessResponse {
             status: "success".to_string(),
             sent: None,
@@ -82,6 +86,10 @@ pub async fn scan(
     let formatted3 = format_response(&response3).ok();
 
     if formatted1 == formatted3 {
+        if let Some(data) = &formatted1 {
+            *state.scan_cache.lock().await = Some(data.clone());
+        }
+
         Ok(Json(SuccessResponse {
             status: "success".to_string(),
             sent: None,
@@ -91,6 +99,10 @@ pub async fn scan(
             data: formatted1,
         }))
     } else if formatted2 == formatted3 {
+        if let Some(data) = &formatted2 {
+            *state.scan_cache.lock().await = Some(data.clone());
+        }
+
         Ok(Json(SuccessResponse {
             status: "success".to_string(),
             sent: None,
@@ -100,13 +112,19 @@ pub async fn scan(
             data: formatted2,
         }))
     } else {
+        let cached_data = state.scan_cache.lock().await.clone();
+
         Ok(Json(SuccessResponse {
             status: "success".to_string(),
             sent: None,
             arduino_response: Some("No consistent pair found".to_string()),
-            message: None,
+            message: if cached_data.is_some() {
+                Some("Using cached scan data after inconsistent Arduino responses".to_string())
+            } else {
+                None
+            },
             parameters: None,
-            data: Some(serde_json::json!([])),
+            data: cached_data.or_else(|| Some(serde_json::json!([]))),
         }))
     }
 }

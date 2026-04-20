@@ -14,6 +14,7 @@ use tower::ServiceExt;
 fn create_test_state() -> webserver::models::AppState {
     webserver::models::AppState {
         arduino: Arc::new(Mutex::new(None)), // No actual Arduino connection
+        scan_cache: Arc::new(Mutex::new(None)),
     }
 }
 
